@@ -114,6 +114,19 @@ function drawRoute(panel, p1, p2) {
   requestAnimationFrame(() => path.classList.add("visible"));
 }
 
+function zoomToPin(pin) {
+  const panel = panelOf(pin);
+  document.querySelectorAll(".map-panel-body").forEach((p) => {
+    if (p !== panel) p.classList.remove("is-zoomed");
+  });
+  panel.style.transformOrigin = `${pin.style.left} ${pin.style.top}`;
+  panel.classList.add("is-zoomed");
+}
+
+function unzoomAll() {
+  document.querySelectorAll(".map-panel-body").forEach((p) => p.classList.remove("is-zoomed"));
+}
+
 let lastAutoSentPair = null;
 
 function maybeAutoOpenWhatsApp() {
@@ -137,6 +150,7 @@ function resetRoute() {
   toLabel = null;
   activeChip = null;
   lastAutoSentPair = null;
+  unzoomAll();
   updateSummary();
 }
 
@@ -144,7 +158,10 @@ function setFrom(label, pin) {
   if (fromPin) fromPin.classList.remove("is-from");
   fromPin = pin || null;
   fromLabel = label;
-  if (fromPin) fromPin.classList.add("is-from");
+  if (fromPin) {
+    fromPin.classList.add("is-from");
+    zoomToPin(fromPin);
+  }
   if (fromSelect) fromSelect.value = label;
   updateSummary();
   maybeAutoOpenWhatsApp();
@@ -156,7 +173,10 @@ function setTo(label, pin, chip) {
   toPin = pin || null;
   activeChip = chip || null;
   toLabel = label;
-  if (toPin) toPin.classList.add("is-to");
+  if (toPin) {
+    toPin.classList.add("is-to");
+    zoomToPin(toPin);
+  }
   if (activeChip) activeChip.classList.add("chip-active");
   if (toSelect) toSelect.value = label;
   updateSummary();
