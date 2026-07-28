@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur de tarifs — usage interne</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f2f6f9;
+    --text: #0d2338;
+    --muted: #5b6b78;
+    --accent: #0f4c75;
+    --line: rgba(13,35,56,0.10);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-alt);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text);
+    padding: 32px 16px;
+  }
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(13,35,56,0.10);
+    padding: 32px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(15,76,117,0.08);
+    border: 1px solid rgba(15,76,117,0.2);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin: 0 0 6px;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 28px;
+    line-height: 1.5;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .field { margin-bottom: 18px; }
+  input, select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text);
+    background: #fff;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--accent); }
+  .result {
+    margin-top: 24px;
+    background: var(--bg-alt);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 5px 0;
+    color: var(--muted);
+  }
+  .result-row.total {
+    color: var(--text);
+    font-weight: 700;
+    font-size: 1.15rem;
+    border-top: 1px solid var(--line);
+    margin-top: 8px;
+    padding-top: 12px;
+  }
+  .note {
+    margin-top: 16px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <span class="badge">Usage interne — non public</span>
+  <h1>Calculateur de tarifs express</h1>
+  <p class="sub">Outil rapide pour estimer le prix à annoncer selon l'urgence de la demande et ta marge.</p>
+
+  <div class="field">
+    <label for="base">Prix de base de la course (€)</label>
+    <input type="number" id="base" min="0" step="1" value="150">
+  </div>
+
+  <div class="field">
+    <label for="urgency">Urgence de la demande</label>
+    <select id="urgency">
+      <option value="0">Standard (réservé à l'avance)</option>
+      <option value="15">Dans l'heure (+15%)</option>
+      <option value="25" selected>Express — moins de 30 min (+25%)</option>
+      <option value="40">Immédiat — maintenant (+40%)</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="margin">Ta marge / commission (€)</label>
+    <input type="number" id="margin" min="0" step="5" value="30">
+  </div>
+
+  <div class="result">
+    <div class="result-row">
+      <span>Prix de base</span>
+      <span id="out-base">150 €</span>
+    </div>
+    <div class="result-row">
+      <span id="out-urgency-label">Supplément urgence (+25%)</span>
+      <span id="out-urgency">+38 €</span>
+    </div>
+    <div class="result-row">
+      <span>Ta marge</span>
+      <span id="out-margin">+30 €</span>
+    </div>
+    <div class="result-row total">
+      <span>Total à annoncer au client</span>
+      <span id="out-total">218 €</span>
+    </div>
+  </div>
+
+  <p class="note">Cette page n'est pas protégée par mot de passe : elle n'est simplement liée nulle part sur le site public. Ne partage pas son lien.</p>
+</div>
+
+<script>
+const baseInput = document.getElementById("base");
+const urgencySelect = document.getElementById("urgency");
+const marginInput = document.getElementById("margin");
+
+const outBase = document.getElementById("out-base");
+const outUrgencyLabel = document.getElementById("out-urgency-label");
+const outUrgency = document.getElementById("out-urgency");
+const outMargin = document.getElementById("out-margin");
+const outTotal = document.getElementById("out-total");
+
+function format(n) {
+  return `${Math.round(n)} €`;
+}
+
+function recalc() {
+  const base = parseFloat(baseInput.value) || 0;
+  const urgencyPct = parseFloat(urgencySelect.value) || 0;
+  const margin = parseFloat(marginInput.value) || 0;
+
+  const urgencyAmount = base * (urgencyPct / 100);
+  const total = base + urgencyAmount + margin;
+
+  outBase.textContent = format(base);
+  outUrgencyLabel.textContent = `Supplément urgence (+${urgencyPct}%)`;
+  outUrgency.textContent = `+${format(urgencyAmount)}`;
+  outMargin.textContent = `+${format(margin)}`;
+  outTotal.textContent = format(total);
+}
+
+[baseInput, urgencySelect, marginInput].forEach((el) => el.addEventListener("input", recalc));
+recalc();
+</script>
+
+</body>
+</html>
