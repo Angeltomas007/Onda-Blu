@@ -70,6 +70,74 @@ document.querySelectorAll(".dest-chip").forEach((chip) => {
   });
 });
 
+// Interactive map pins: click a first point (departure), then a second (arrival)
+const fromSelect = document.querySelector('select[name="from"]');
+const routeSummary = document.getElementById("route-summary");
+let fromPin = null;
+let toPin = null;
+
+const pinLabel = (pin) => pin.querySelector("span").textContent.trim();
+const panelOf = (pin) => pin.closest(".map-panel-body");
+const pinPoint = (pin) => ({
+  x: (parseFloat(pin.style.left) / 100) * 300,
+  y: (parseFloat(pin.style.top) / 100) * 170,
+});
+
+function resetRoute() {
+  if (fromPin) fromPin.classList.remove("is-from");
+  if (toPin) toPin.classList.remove("is-to");
+  document.querySelectorAll(".map-route path").forEach((path) => path.remove());
+  fromPin = null;
+  toPin = null;
+  if (routeSummary) routeSummary.textContent = "";
+}
+
+function drawRoute(panel, p1, p2) {
+  const svg = panel.querySelector(".map-route");
+  if (!svg) return;
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", `M${p1.x} ${p1.y} L${p2.x} ${p2.y}`);
+  svg.appendChild(path);
+  requestAnimationFrame(() => path.classList.add("visible"));
+}
+
+document.querySelectorAll(".map-pin").forEach((pin) => {
+  pin.addEventListener("click", () => {
+    if (pin === fromPin || pin === toPin) {
+      resetRoute();
+      return;
+    }
+
+    if (!fromPin) {
+      fromPin = pin;
+      pin.classList.add("is-from");
+      if (routeSummary) routeSummary.textContent = `${pinLabel(pin)} → …`;
+      return;
+    }
+
+    if (!toPin) {
+      toPin = pin;
+      pin.classList.add("is-to");
+
+      if (fromSelect) fromSelect.value = pinLabel(fromPin);
+      if (toSelect) toSelect.value = pinLabel(toPin);
+      if (routeSummary) routeSummary.textContent = `${pinLabel(fromPin)} → ${pinLabel(toPin)}`;
+
+      if (panelOf(fromPin) === panelOf(toPin)) {
+        drawRoute(panelOf(fromPin), pinPoint(fromPin), pinPoint(toPin));
+      }
+
+      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
+    resetRoute();
+    fromPin = pin;
+    pin.classList.add("is-from");
+    if (routeSummary) routeSummary.textContent = `${pinLabel(pin)} → …`;
+  });
+});
+
 // Contact form (static placeholder submit — wire to a backend/service later)
 const form = document.getElementById("contact-form");
 const formNote = document.getElementById("form-note");

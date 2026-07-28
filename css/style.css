@@ -366,20 +366,52 @@ ul { list-style: none; margin: 0; padding: 0; }
   opacity: 0.6;
 }
 .map-pins { position: absolute; inset: 0; }
+.map-route {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.map-route path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 5 5;
+  opacity: 0;
+  transition: opacity .3s var(--ease);
+}
+.map-route path.visible {
+  opacity: 0.9;
+  animation: route-dash 1.1s linear infinite;
+}
+@keyframes route-dash {
+  to { stroke-dashoffset: -20; }
+}
 .map-pin {
   position: absolute;
   transform: translate(-50%, -100%);
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  font: inherit;
   font-size: 11px;
   font-weight: 600;
   color: var(--text);
   background: #fff;
+  border: 1px solid transparent;
   padding: 4px 10px 4px 6px;
   border-radius: 999px;
   box-shadow: 0 4px 10px rgba(13,35,56,0.16);
   white-space: nowrap;
+  cursor: pointer;
+  transition: transform .3s var(--ease), border-color .3s, box-shadow .3s, background .3s, color .3s;
+}
+.map-pin:hover {
+  transform: translate(-50%, -100%) scale(1.08);
+  box-shadow: 0 6px 16px rgba(13,35,56,0.22);
 }
 .map-pin i {
   width: 8px; height: 8px;
@@ -387,6 +419,39 @@ ul { list-style: none; margin: 0; padding: 0; }
   background: var(--accent);
   flex-shrink: 0;
   display: block;
+  transition: background .3s, transform .3s var(--ease);
+}
+.map-pin.is-from {
+  background: var(--accent);
+  color: #fff;
+  transform: translate(-50%, -100%) scale(1.1);
+}
+.map-pin.is-from i { background: #fff; }
+.map-pin.is-to {
+  background: #0d2338;
+  color: #fff;
+  transform: translate(-50%, -100%) scale(1.1);
+}
+.map-pin.is-to i { background: #fff; }
+.map-pin.is-from i, .map-pin.is-to i { animation: pin-pulse 1.4s ease-in-out infinite; }
+@keyframes pin-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+}
+
+.section-hint {
+  color: var(--accent);
+  font-size: .85rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.route-summary {
+  min-height: 1.4em;
+  margin: -8px 0 24px;
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--accent);
 }
 
 .dest-chips {
