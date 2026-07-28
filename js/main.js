@@ -1,5 +1,21 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// Guess the visitor's phone country code from their browser locale — no
+// location permission prompt needed, works instantly, respects privacy.
+const localeToDialCode = {
+  FR: "+33", MC: "+377", IT: "+39", GB: "+44", CH: "+41", DE: "+49",
+  BE: "+32", NL: "+31", ES: "+34", US: "+1", AE: "+971", RU: "+7",
+};
+const phoneCountrySelect = document.querySelector('select[name="phoneCountry"]');
+if (phoneCountrySelect) {
+  const locale = navigator.language || (navigator.languages && navigator.languages[0]) || "";
+  const region = locale.split("-")[1];
+  const guessedCode = region && localeToDialCode[region.toUpperCase()];
+  if (guessedCode && [...phoneCountrySelect.options].some((o) => o.value === guessedCode)) {
+    phoneCountrySelect.value = guessedCode;
+  }
+}
+
 // Navbar background on scroll
 const navbar = document.getElementById("navbar");
 const navLinks = document.getElementById("nav-links");
