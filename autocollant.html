@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onda Blu — Autocollant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: 100mm 100mm; margin: 0; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #eef2f5;
+    display: flex;
+    justify-content: center;
+    padding: 10mm;
+  }
+  .sticker {
+    width: 90mm;
+    height: 90mm;
+    border-radius: 50%;
+    background: #0f4c75;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3.5mm;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    text-align: center;
+    padding: 8mm;
+  }
+  .logo-mark { width: 10mm; height: 10mm; }
+  .brand {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-size: 12.5pt;
+    line-height: 1.25;
+  }
+  .tagline {
+    font-size: 7.5pt;
+    letter-spacing: 0.05em;
+    opacity: 0.85;
+    margin-top: -2mm;
+  }
+  .qr-frame {
+    background: #ffffff;
+    padding: 2.5mm;
+    border-radius: 2.5mm;
+  }
+  .qr-frame img { display: block; width: 26mm; height: 26mm; }
+  .phone {
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  @media print {
+    body { background: none; padding: 0; }
+    .sticker { box-shadow: none; margin: 5mm auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticker">
+  <svg class="logo-mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.5"/><path d="M5 24c3.3-4.3 6.7-4.3 10 0s6.7 4.3 10 0 6.7-4.3 10 0" stroke="currentColor" stroke-width="2.1" fill="none" stroke-linecap="round"/><path d="M5 16.5c3.3-4.3 6.7-4.3 10 0s6.7 4.3 10 0 6.7-4.3 10 0" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.5"/></svg>
+  <span class="brand">BOOK YOUR RIDE</span>
+  <span class="tagline">ONDA BLU — Taxi · Van · Mediterranean</span>
+  <div class="qr-frame">
+    <img src="assets/img/qr-contact.svg" alt="QR code WhatsApp Onda Blu">
+  </div>
+  <span class="phone">+33 6 19 45 02 57</span>
+</div>
+
+</body>
+</html>
