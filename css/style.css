@@ -518,42 +518,36 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .dest-chip.chip-active:hover { color: #fff; }
 
-/* Gallery */
-.gallery {
+/* Fleet — simple categories */
+.fleet-simple {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  max-width: 720px;
 }
-.gallery-item {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(135deg, rgba(15,76,117,0.05), rgba(47,122,181,0.05)),
-    linear-gradient(160deg, #eef2f6, #e2e8ee);
-  cursor: pointer;
-  overflow: hidden;
+.fleet-item {
   display: flex;
-  align-items: flex-end;
-  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 32px 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: transform .45s var(--ease), border-color .3s, box-shadow .3s;
-  font: inherit;
-  color: inherit;
-  text-align: left;
+  font-weight: 600;
+  transition: transform .3s var(--ease), border-color .3s, box-shadow .3s;
 }
-.gallery-item:hover { transform: scale(1.02); border-color: rgba(15,76,117,0.3); box-shadow: var(--shadow-hover); }
-.gallery-tag {
-  position: absolute; top: 18px; left: 20px;
-  font-size: 11px; letter-spacing: 0.15em;
+.fleet-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(15,76,117,0.3);
+  box-shadow: var(--shadow-hover);
+}
+.fleet-icon {
+  width: 40px; height: 40px;
   color: var(--accent);
-  text-transform: uppercase;
 }
-.gallery-placeholder {
-  font-size: .85rem;
-  color: var(--muted);
-}
+.fleet-icon svg { width: 100%; height: 100%; }
 
 /* About */
 .about-grid {
@@ -671,31 +665,6 @@ ul { list-style: none; margin: 0; padding: 0; }
   flex-wrap: wrap; gap: 12px;
   color: var(--muted);
   font-size: .85rem;
-}
-
-/* Lightbox */
-.lightbox {
-  position: fixed; inset: 0;
-  background: rgba(4,10,18,0.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 200;
-}
-.lightbox.open { display: flex; }
-.lightbox-content {
-  width: min(900px, 90vw);
-  aspect-ratio: 16/9;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: linear-gradient(160deg, #ffffff, #e2e8ee);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--muted);
-}
-.lightbox-close {
-  position: absolute; top: 28px; right: 32px;
-  background: none; border: none; color: #fff;
-  font-size: 32px; cursor: pointer;
 }
 
 /* Reveal animations */
