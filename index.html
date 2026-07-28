@@ -145,6 +145,8 @@
       <h2 data-i18n="destinations.h2">Our destinations</h2>
       <p class="section-sub" data-i18n="destinations.sub">Mediterranean only, for now — tap a pickup point or a
         destination below to start your request.</p>
+      <p class="section-hint" id="route-hint" data-i18n="destinations.hint">Click a first point (departure), then a
+        second (arrival) — the form fills in automatically.</p>
     </div>
 
     <div class="maps-grid">
@@ -153,11 +155,12 @@
         <p class="map-panel-title" data-i18n="map.sttropez.title">Saint-Tropez &amp; the Gulf</p>
         <div class="map-panel-body">
           <svg class="map-bg" viewBox="0 0 300 170" preserveAspectRatio="none"><path d="M0 130Q60 90 120 120T300 110" stroke="currentColor" stroke-width="2" fill="none"/><path d="M0 150Q70 115 140 145T300 135" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5"/></svg>
+          <svg class="map-route" viewBox="0 0 300 170" preserveAspectRatio="none"></svg>
           <div class="map-pins">
-            <span class="map-pin" style="left:18%;top:78%"><i></i><span data-i18n="map.sttropez.pin1">Saint-Tropez Port</span></span>
-            <span class="map-pin" style="left:50%;top:48%"><i></i><span data-i18n="map.sttropez.pin2">Pampelonne Beach</span></span>
-            <span class="map-pin" style="left:38%;top:20%"><i></i><span data-i18n="map.sttropez.pin3">Place des Lices</span></span>
-            <span class="map-pin" style="left:80%;top:60%"><i></i><span data-i18n="map.sttropez.pin4">Ramatuelle</span></span>
+            <button type="button" class="map-pin" style="left:18%;top:78%"><i></i><span data-i18n="map.sttropez.pin1">Saint-Tropez Port</span></button>
+            <button type="button" class="map-pin" style="left:50%;top:48%"><i></i><span data-i18n="map.sttropez.pin2">Pampelonne Beach</span></button>
+            <button type="button" class="map-pin" style="left:38%;top:20%"><i></i><span data-i18n="map.sttropez.pin3">Place des Lices</span></button>
+            <button type="button" class="map-pin" style="left:80%;top:60%"><i></i><span data-i18n="map.sttropez.pin4">Ramatuelle</span></button>
           </div>
         </div>
       </div>
@@ -166,16 +169,19 @@
         <p class="map-panel-title" data-i18n="map.sardinia.title">Costa Smeralda, Sardinia</p>
         <div class="map-panel-body">
           <svg class="map-bg" viewBox="0 0 300 170" preserveAspectRatio="none"><path d="M0 60Q80 100 160 65T300 90" stroke="currentColor" stroke-width="2" fill="none"/><path d="M0 85Q90 120 170 90T300 115" stroke="currentColor" stroke-width="1.2" fill="none" opacity="0.5"/></svg>
+          <svg class="map-route" viewBox="0 0 300 170" preserveAspectRatio="none"></svg>
           <div class="map-pins">
-            <span class="map-pin" style="left:22%;top:35%"><i></i><span data-i18n="map.sardinia.pin1">Porto Cervo</span></span>
-            <span class="map-pin" style="left:55%;top:65%"><i></i><span data-i18n="map.sardinia.pin2">Porto Rotondo</span></span>
-            <span class="map-pin" style="left:75%;top:30%"><i></i><span data-i18n="map.sardinia.pin3">Baia Sardinia</span></span>
-            <span class="map-pin" style="left:40%;top:82%"><i></i><span data-i18n="map.sardinia.pin4">Poltu Quatu</span></span>
+            <button type="button" class="map-pin" style="left:22%;top:35%"><i></i><span data-i18n="map.sardinia.pin1">Porto Cervo</span></button>
+            <button type="button" class="map-pin" style="left:55%;top:65%"><i></i><span data-i18n="map.sardinia.pin2">Porto Rotondo</span></button>
+            <button type="button" class="map-pin" style="left:75%;top:30%"><i></i><span data-i18n="map.sardinia.pin3">Baia Sardinia</span></button>
+            <button type="button" class="map-pin" style="left:40%;top:82%"><i></i><span data-i18n="map.sardinia.pin4">Poltu Quatu</span></button>
           </div>
         </div>
       </div>
 
     </div>
+
+    <p class="route-summary" id="route-summary" aria-live="polite"></p>
 
     <div class="dest-chips">
       <button type="button" class="dest-chip" data-select-to="Monaco">Monaco</button>
