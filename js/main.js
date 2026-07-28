@@ -1,5 +1,37 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// Guess the visitor's phone country code from their browser locale — no
+// location permission prompt needed, works instantly, respects privacy.
+const localeToDialCode = {
+  FR: "+33", MC: "+377", IT: "+39", GB: "+44", CH: "+41", DE: "+49",
+  BE: "+32", NL: "+31", ES: "+34", US: "+1", AE: "+971", RU: "+7",
+};
+const phoneCountrySelect = document.querySelector('select[name="phoneCountry"]');
+if (phoneCountrySelect) {
+  const locale = navigator.language || (navigator.languages && navigator.languages[0]) || "";
+  const region = locale.split("-")[1];
+  const guessedCode = region && localeToDialCode[region.toUpperCase()];
+  if (guessedCode && [...phoneCountrySelect.options].some((o) => o.value === guessedCode)) {
+    phoneCountrySelect.value = guessedCode;
+  }
+
+  // Refine with an IP-based lookup (more accurate than locale for where the
+  // visitor actually is) — best-effort, silently keeps the locale guess if
+  // the request fails, is slow, or the visitor blocks it.
+  const ipLookupController = new AbortController();
+  const ipLookupTimeout = setTimeout(() => ipLookupController.abort(), 4000);
+  fetch("https://ipapi.co/json/", { signal: ipLookupController.signal })
+    .then((res) => res.json())
+    .then((data) => {
+      const ipCode = data && data.country_code && localeToDialCode[data.country_code.toUpperCase()];
+      if (ipCode && [...phoneCountrySelect.options].some((o) => o.value === ipCode)) {
+        phoneCountrySelect.value = ipCode;
+      }
+    })
+    .catch(() => {})
+    .finally(() => clearTimeout(ipLookupTimeout));
+}
+
 // Navbar background on scroll
 const navbar = document.getElementById("navbar");
 const navLinks = document.getElementById("nav-links");
