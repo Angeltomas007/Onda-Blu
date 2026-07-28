@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onda Blu — Prospectus</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A5; margin: 0; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #eef2f5;
+    color: #0d2338;
+  }
+  .flyer {
+    width: 148mm;
+    height: 210mm;
+    margin: 10mm auto;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flyer-header {
+    background: #0f4c75;
+    color: #ffffff;
+    padding: 10mm 12mm;
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+  }
+  .flyer-header .logo-mark { width: 11mm; height: 11mm; flex-shrink: 0; }
+  .flyer-header .brand {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    font-size: 15pt;
+  }
+  .flyer-header .tagline {
+    font-size: 8.5pt;
+    letter-spacing: 0.03em;
+    opacity: 0.85;
+    margin-top: 1mm;
+  }
+
+  .flyer-body {
+    padding: 8mm 12mm;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6mm;
+  }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 11pt;
+    letter-spacing: 0.05em;
+    color: #0f4c75;
+    margin: 0 0 3mm 0;
+    border-bottom: 0.4mm solid #0f4c75;
+    padding-bottom: 1.5mm;
+  }
+
+  .services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm 5mm;
+  }
+  .service {
+    font-size: 8.5pt;
+    line-height: 1.35;
+  }
+  .service .name { font-weight: 700; }
+  .service .desc { color: #5b6b78; }
+  .service.soon .name { color: #5b6b78; }
+  .service.soon .badge {
+    display: inline-block;
+    font-size: 6.5pt;
+    letter-spacing: 0.04em;
+    background: #f2f6f9;
+    color: #5b6b78;
+    padding: 0.5mm 2mm;
+    border-radius: 3mm;
+    margin-left: 1.5mm;
+  }
+
+  .destinations {
+    display: flex;
+    gap: 5mm;
+  }
+  .destination {
+    flex: 1;
+    background: #f2f6f9;
+    border-radius: 3mm;
+    padding: 4mm;
+  }
+  .destination .title {
+    font-weight: 700;
+    font-size: 9pt;
+    margin-bottom: 1.5mm;
+  }
+  .destination ul {
+    margin: 0;
+    padding-left: 4mm;
+    font-size: 8pt;
+    color: #5b6b78;
+  }
+  .destination li { margin-bottom: 0.5mm; }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+  }
+  .chip {
+    font-size: 7.5pt;
+    letter-spacing: 0.02em;
+    border: 0.3mm solid #0f4c75;
+    color: #0f4c75;
+    padding: 1mm 3mm;
+    border-radius: 5mm;
+  }
+
+  .flyer-footer {
+    background: #0d2338;
+    color: #ffffff;
+    padding: 6mm 12mm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5mm;
+  }
+  .flyer-footer .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+    font-size: 9pt;
+  }
+  .flyer-footer .phone { font-weight: 700; }
+  .flyer-footer .qr {
+    background: #ffffff;
+    border-radius: 2mm;
+    padding: 2mm;
+    width: 20mm;
+    height: 20mm;
+    flex-shrink: 0;
+  }
+  .flyer-footer .qr img { display: block; width: 100%; height: 100%; }
+
+  @media print {
+    body { background: none; }
+    .flyer { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="flyer">
+
+  <div class="flyer-header">
+    <svg class="logo-mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.5"/><path d="M5 24c3.3-4.3 6.7-4.3 10 0s6.7 4.3 10 0 6.7-4.3 10 0" stroke="currentColor" stroke-width="2.1" fill="none" stroke-linecap="round"/><path d="M5 16.5c3.3-4.3 6.7-4.3 10 0s6.7 4.3 10 0 6.7-4.3 10 0" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.5"/></svg>
+    <div>
+      <div class="brand">ONDA BLU</div>
+      <div class="tagline">Your travel, handled for you.</div>
+    </div>
+  </div>
+
+  <div class="flyer-body">
+
+    <section>
+      <h2>Nos services</h2>
+      <div class="services">
+        <div class="service">
+          <span class="name">Chauffeur privé &amp; Taxi</span>
+          <p class="desc">Un trajet simple, point A à point B, chauffeur trouvé rapidement.</p>
+        </div>
+        <div class="service">
+          <span class="name">Vans &amp; Groupes</span>
+          <p class="desc">Mariages, séminaires, sorties entre amis : véhicule adapté à votre groupe.</p>
+        </div>
+        <div class="service">
+          <span class="name">Aéroports &amp; Gares</span>
+          <p class="desc">Suivi des vols et trains, ponctualité garantie sur les longues distances.</p>
+        </div>
+        <div class="service">
+          <span class="name">Sur mesure</span>
+          <p class="desc">Mise à disposition à l'heure, abonnement, chauffeur dédié pour la soirée.</p>
+        </div>
+        <div class="service soon">
+          <span class="name">Transport héliporté<span class="badge">Bientôt disponible</span></span>
+          <p class="desc">Liaisons express Côte d'Azur ⇄ Corse ⇄ Sardaigne, en développement.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Nos destinations</h2>
+      <div class="destinations">
+        <div class="destination">
+          <p class="title">Saint-Tropez &amp; le Golfe</p>
+          <ul>
+            <li>Saint-Tropez Port</li>
+            <li>Plage de Pampelonne</li>
+            <li>Place des Lices</li>
+            <li>Ramatuelle</li>
+          </ul>
+        </div>
+        <div class="destination">
+          <p class="title">Costa Smeralda, Sardaigne</p>
+          <ul>
+            <li>Porto Cervo</li>
+            <li>Porto Rotondo</li>
+            <li>Baia Sardinia</li>
+            <li>Poltu Quatu</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chips">
+        <span class="chip">Monaco</span>
+        <span class="chip">Calvi</span>
+        <span class="chip">Portofino</span>
+        <span class="chip">Itinéraire personnalisé</span>
+        <span class="chip">Elsewhere</span>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="flyer-footer">
+    <div class="contact-info">
+      <span class="phone">+33 6 19 45 02 57</span>
+      <span>Disponible 24/7 — WhatsApp</span>
+    </div>
+    <div class="qr">
+      <img src="assets/img/qr-contact.svg" alt="QR code WhatsApp Onda Blu">
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
