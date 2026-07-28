@@ -75,19 +75,6 @@ const revealObserver = new IntersectionObserver(
 );
 revealItems.forEach((item) => revealObserver.observe(item));
 
-// Fleet gallery lightbox
-const lightbox = document.getElementById("lightbox");
-const lightboxClose = document.getElementById("lightbox-close");
-document.querySelectorAll(".gallery-item").forEach((item) => {
-  item.addEventListener("click", () => {
-    lightbox.classList.add("open");
-  });
-});
-lightboxClose.addEventListener("click", () => lightbox.classList.remove("open"));
-lightbox.addEventListener("click", (e) => {
-  if (e.target === lightbox) lightbox.classList.remove("open");
-});
-
 // Destination chips + interactive map pins share one route selection state:
 // a first click/tap (pin or chip) sets the departure, a second sets the arrival.
 const toSelect = document.querySelector('select[name="to"]');
