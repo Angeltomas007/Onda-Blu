@@ -144,20 +144,11 @@ ul { list-style: none; margin: 0; padding: 0; }
 .hero-bg {
   position: absolute;
   inset: -10% -10% -10% -10%;
-  background-image: url('https://loremflickr.com/1920/1080/mediterranean,yacht,coast/all'),
-    linear-gradient(160deg, #071523 0%, #0b2a44 45%, #04101a 100%);
-  background-size: cover, cover;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-  will-change: transform;
-}
-.hero-bg::before {
-  content: "";
-  position: absolute; inset: 0;
   background:
     radial-gradient(60% 50% at 25% 25%, rgba(90,150,200,0.20), transparent 60%),
     radial-gradient(55% 60% at 80% 75%, rgba(20,60,100,0.28), transparent 60%),
-    linear-gradient(160deg, rgba(7,21,35,0.55) 0%, rgba(11,42,68,0.45) 45%, rgba(4,16,26,0.65) 100%);
+    linear-gradient(160deg, #071523 0%, #0b2a44 45%, #04101a 100%);
+  will-change: transform;
 }
 .hero-overlay {
   position: absolute; inset: 0;
@@ -355,22 +346,6 @@ ul { list-style: none; margin: 0; padding: 0; }
   aspect-ratio: 16 / 10;
   background: linear-gradient(160deg, #eef4f9, #dde8f1);
 }
-.map-panel-body.photo-sttropez {
-  background-image: linear-gradient(180deg, rgba(13,35,56,0.05), rgba(13,35,56,0.25)),
-    url('https://loremflickr.com/800/500/saint-tropez,harbor,france'),
-    linear-gradient(160deg, #eef4f9, #dde8f1);
-  background-size: cover, cover, cover;
-  background-position: center, center, center;
-  background-repeat: no-repeat, no-repeat, no-repeat;
-}
-.map-panel-body.photo-sardinia {
-  background-image: linear-gradient(180deg, rgba(13,35,56,0.05), rgba(13,35,56,0.25)),
-    url('https://loremflickr.com/800/500/sardinia,costasmeralda,italy'),
-    linear-gradient(160deg, #eef4f9, #dde8f1);
-  background-size: cover, cover, cover;
-  background-position: center, center, center;
-  background-repeat: no-repeat, no-repeat, no-repeat;
-}
 .map-pins { position: absolute; inset: 0; }
 .map-route {
   position: absolute;
@@ -454,11 +429,28 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .route-summary {
   min-height: 1.4em;
-  margin: -8px 0 24px;
+  margin: -8px 0 12px;
   font-size: .95rem;
   font-weight: 600;
   color: var(--accent);
 }
+
+.route-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25d366;
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(37,211,102,0.3);
+  transition: transform .3s var(--ease), opacity .3s;
+}
+.route-whatsapp-btn:hover { transform: translateY(-2px); opacity: 0.94; }
+.route-whatsapp-btn svg { width: 18px; height: 18px; }
 
 .dest-chips {
   display: flex;
@@ -620,6 +612,14 @@ ul { list-style: none; margin: 0; padding: 0; }
   resize: vertical;
 }
 .contact-form select { appearance: auto; cursor: pointer; }
+.phone-group { display: flex; gap: 8px; width: 100%; }
+.phone-group select {
+  width: auto;
+  flex: 0 0 100px;
+  padding-left: 10px;
+  padding-right: 4px;
+}
+.phone-group input { width: auto; flex: 1; }
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus {
   outline: none;
   border-color: var(--accent);
