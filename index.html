@@ -266,7 +266,23 @@
       <form class="contact-form reveal" id="contact-form">
         <div class="form-row">
           <input type="text" name="name" data-i18n-placeholder="form.name" placeholder="Name" required>
-          <input type="tel" name="phone" data-i18n-placeholder="form.phone" placeholder="Phone" required>
+          <div class="phone-group">
+            <select name="phoneCountry" aria-label="Country code">
+              <option value="+33" selected>🇫🇷 +33</option>
+              <option value="+377">🇲🇨 +377</option>
+              <option value="+39">🇮🇹 +39</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+41">🇨🇭 +41</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+32">🇧🇪 +32</option>
+              <option value="+31">🇳🇱 +31</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+971">🇦🇪 +971</option>
+              <option value="+7">🇷🇺 +7</option>
+            </select>
+            <input type="tel" name="phone" data-i18n-placeholder="form.phone" placeholder="Phone" required>
+          </div>
         </div>
         <div class="form-row">
           <select name="from" required>
@@ -324,7 +340,10 @@
             </optgroup>
           </select>
         </div>
-        <input type="text" name="subject" data-i18n-placeholder="form.subject" placeholder="Trip type (private driver, van, airport...)">
+        <div class="form-row">
+          <input type="text" name="subject" data-i18n-placeholder="form.subject" placeholder="Trip type (private driver, van, airport...)">
+          <input type="number" name="passengers" min="1" data-i18n-placeholder="form.passengers" placeholder="Number of passengers">
+        </div>
         <textarea name="message" rows="4" data-i18n-placeholder="form.message" placeholder="Date, time, number of people, details..." required></textarea>
         <button type="submit" class="btn btn-primary" data-i18n="form.submit">Send request</button>
         <p class="form-note" id="form-note"></p>

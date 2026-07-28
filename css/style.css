@@ -637,6 +637,14 @@ ul { list-style: none; margin: 0; padding: 0; }
   resize: vertical;
 }
 .contact-form select { appearance: auto; cursor: pointer; }
+.phone-group { display: flex; gap: 8px; width: 100%; }
+.phone-group select {
+  width: auto;
+  flex: 0 0 100px;
+  padding-left: 10px;
+  padding-right: 4px;
+}
+.phone-group input { width: auto; flex: 1; }
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus {
   outline: none;
   border-color: var(--accent);

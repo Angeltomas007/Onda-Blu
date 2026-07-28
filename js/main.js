@@ -209,16 +209,20 @@ form.addEventListener("submit", (e) => {
 
   const lines = [dict["whatsapp.intro"]];
   const name = data.get("name");
+  const phoneCountry = data.get("phoneCountry");
   const phone = data.get("phone");
+  const fullPhone = phone ? `${phoneCountry} ${phone}`.trim() : "";
   const from = data.get("from");
   const to = data.get("to");
+  const passengers = data.get("passengers");
   const subject = data.get("subject");
   const message = data.get("message");
 
   if (name) lines.push(`${dict["form.name"]}: ${name}`);
-  if (phone) lines.push(`${dict["form.phone"]}: ${phone}`);
+  if (fullPhone) lines.push(`${dict["form.phone"]}: ${fullPhone}`);
   if (from) lines.push(`${dict["form.fromPlaceholder"]}: ${from}`);
   if (to) lines.push(`${dict["form.toPlaceholder"]}: ${to}`);
+  if (passengers) lines.push(`${dict["form.passengers"]}: ${passengers}`);
   if (subject) lines.push(`${dict["form.subject"]}: ${subject}`);
   if (message) lines.push(`${dict["form.message"]}: ${message}`);
 
