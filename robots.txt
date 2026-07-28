@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /calculateur-tarifs.html
+Allow: /
+
+Sitemap: https://angeltomas007.github.io/Onda-Blu/sitemap.xml

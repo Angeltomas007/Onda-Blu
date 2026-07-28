@@ -5,11 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Onda Blu — Travel Concierge</title>
 <meta name="description" content="Onda Blu: one contact to arrange all your rides — private driver, taxi, van, airport and long-distance transfers across the Mediterranean.">
-<link rel="icon" href="data:,">
+<link rel="canonical" href="https://angeltomas007.github.io/Onda-Blu/">
+<meta name="theme-color" content="#0f4c75">
+
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="mask-icon" href="assets/img/favicon.svg" color="#0f4c75">
+
+<!-- Open Graph / social sharing preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Onda Blu">
+<meta property="og:title" content="Onda Blu — Travel Concierge">
+<meta property="og:description" content="One contact to arrange all your rides — private driver, taxi, van, airport and long-distance transfers across the Mediterranean.">
+<meta property="og:url" content="https://angeltomas007.github.io/Onda-Blu/">
+<meta property="og:image" content="https://angeltomas007.github.io/Onda-Blu/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Onda Blu — Travel Concierge">
+<meta name="twitter:description" content="One contact to arrange all your rides — private driver, taxi, van, airport and long-distance transfers across the Mediterranean.">
+<meta name="twitter:image" content="https://angeltomas007.github.io/Onda-Blu/assets/img/og-image.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TaxiService",
+  "name": "Onda Blu",
+  "description": "Travel concierge for private driver, taxi, van, airport and long-distance transfers across the Mediterranean.",
+  "url": "https://angeltomas007.github.io/Onda-Blu/",
+  "telephone": "+33619450257",
+  "areaServed": [
+    { "@type": "Place", "name": "Saint-Tropez" },
+    { "@type": "Place", "name": "Costa Smeralda, Sardinia" },
+    { "@type": "Place", "name": "Monaco" },
+    { "@type": "Place", "name": "Cannes" },
+    { "@type": "Place", "name": "Nice" }
+  ],
+  "openingHours": "Mo-Su 00:00-23:59"
+}
+</script>
 </head>
 <body>
 
@@ -313,7 +351,7 @@
       </div>
       <form class="contact-form reveal" id="contact-form">
         <div class="form-row">
-          <input type="text" name="name" data-i18n-placeholder="form.name" placeholder="Name" required>
+          <input type="text" name="name" data-i18n-placeholder="form.name" data-i18n-aria="form.name" placeholder="Name" aria-label="Name" required>
           <div class="phone-group">
             <select name="phoneCountry" aria-label="Country code">
               <option value="+33" selected>🇫🇷 +33</option>
@@ -329,11 +367,11 @@
               <option value="+971">🇦🇪 +971</option>
               <option value="+7">🇷🇺 +7</option>
             </select>
-            <input type="tel" name="phone" data-i18n-placeholder="form.phone" placeholder="Phone" required>
+            <input type="tel" name="phone" data-i18n-placeholder="form.phone" data-i18n-aria="form.phone" placeholder="Phone" aria-label="Phone" required>
           </div>
         </div>
         <div class="form-row">
-          <select name="from" required>
+          <select name="from" data-i18n-aria="form.fromPlaceholder" aria-label="Pickup point" required>
             <option value="" data-i18n="form.fromPlaceholder">Pickup point</option>
             <optgroup data-i18n-label="map.sttropez.title" label="Saint-Tropez &amp; the Gulf">
               <option data-i18n="map.sttropez.pin1">Saint-Tropez Port</option>
@@ -360,7 +398,7 @@
               <option data-i18n="form.otherOption">Other (please specify below)</option>
             </optgroup>
           </select>
-          <select name="to" required>
+          <select name="to" data-i18n-aria="form.toPlaceholder" aria-label="Drop-off point" required>
             <option value="" data-i18n="form.toPlaceholder">Drop-off point</option>
             <optgroup data-i18n-label="map.sttropez.title" label="Saint-Tropez &amp; the Gulf">
               <option data-i18n="map.sttropez.pin1">Saint-Tropez Port</option>
@@ -389,10 +427,10 @@
           </select>
         </div>
         <div class="form-row">
-          <input type="text" name="subject" data-i18n-placeholder="form.subject" placeholder="Trip type (private driver, van, airport...)">
-          <input type="number" name="passengers" min="1" data-i18n-placeholder="form.passengers" placeholder="Number of passengers">
+          <input type="text" name="subject" data-i18n-placeholder="form.subject" data-i18n-aria="form.subject" placeholder="Trip type (private driver, van, airport...)" aria-label="Trip type (private driver, van, airport...)">
+          <input type="number" name="passengers" min="1" data-i18n-placeholder="form.passengers" data-i18n-aria="form.passengers" placeholder="Number of passengers" aria-label="Number of passengers">
         </div>
-        <textarea name="message" rows="4" data-i18n-placeholder="form.message" placeholder="Date, time, number of people, details..." required></textarea>
+        <textarea name="message" rows="4" data-i18n-placeholder="form.message" data-i18n-aria="form.message" placeholder="Date, time, number of people, details..." aria-label="Date, time, number of people, details..." required></textarea>
         <button type="submit" class="btn btn-primary" data-i18n="form.submit">Send request</button>
         <p class="form-note" id="form-note"></p>
       </form>
