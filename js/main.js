@@ -14,6 +14,22 @@ if (phoneCountrySelect) {
   if (guessedCode && [...phoneCountrySelect.options].some((o) => o.value === guessedCode)) {
     phoneCountrySelect.value = guessedCode;
   }
+
+  // Refine with an IP-based lookup (more accurate than locale for where the
+  // visitor actually is) — best-effort, silently keeps the locale guess if
+  // the request fails, is slow, or the visitor blocks it.
+  const ipLookupController = new AbortController();
+  const ipLookupTimeout = setTimeout(() => ipLookupController.abort(), 4000);
+  fetch("https://ipapi.co/json/", { signal: ipLookupController.signal })
+    .then((res) => res.json())
+    .then((data) => {
+      const ipCode = data && data.country_code && localeToDialCode[data.country_code.toUpperCase()];
+      if (ipCode && [...phoneCountrySelect.options].some((o) => o.value === ipCode)) {
+        phoneCountrySelect.value = ipCode;
+      }
+    })
+    .catch(() => {})
+    .finally(() => clearTimeout(ipLookupTimeout));
 }
 
 // Navbar background on scroll
