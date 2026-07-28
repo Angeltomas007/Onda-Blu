@@ -56,25 +56,18 @@ lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) lightbox.classList.remove("open");
 });
 
-// Destination chips: jump to the booking form and pre-fill it
+// Destination chips + interactive map pins share one route selection state:
+// a first click/tap (pin or chip) sets the departure, a second sets the arrival.
 const toSelect = document.querySelector('select[name="to"]');
-const subjectInput = document.querySelector('input[name="subject"]');
-document.querySelectorAll(".dest-chip").forEach((chip) => {
-  chip.addEventListener("click", () => {
-    if (chip.dataset.selectTo && toSelect) {
-      toSelect.value = chip.dataset.selectTo;
-    } else if (chip.hasAttribute("data-fill-subject") && subjectInput) {
-      subjectInput.value = chip.textContent.trim();
-    }
-    document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
-  });
-});
-
-// Interactive map pins: click a first point (departure), then a second (arrival)
 const fromSelect = document.querySelector('select[name="from"]');
+const subjectInput = document.querySelector('input[name="subject"]');
 const routeSummary = document.getElementById("route-summary");
+
 let fromPin = null;
 let toPin = null;
+let fromLabel = null;
+let toLabel = null;
+let activeChip = null;
 
 const pinLabel = (pin) => pin.querySelector("span").textContent.trim();
 const panelOf = (pin) => pin.closest(".map-panel-body");
@@ -83,13 +76,12 @@ const pinPoint = (pin) => ({
   y: (parseFloat(pin.style.top) / 100) * 170,
 });
 
-function resetRoute() {
-  if (fromPin) fromPin.classList.remove("is-from");
-  if (toPin) toPin.classList.remove("is-to");
-  document.querySelectorAll(".map-route path").forEach((path) => path.remove());
-  fromPin = null;
-  toPin = null;
-  if (routeSummary) routeSummary.textContent = "";
+function updateSummary() {
+  if (!routeSummary) return;
+  if (fromLabel && toLabel) routeSummary.textContent = `${fromLabel} → ${toLabel}`;
+  else if (fromLabel) routeSummary.textContent = `${fromLabel} → …`;
+  else if (toLabel) routeSummary.textContent = `… → ${toLabel}`;
+  else routeSummary.textContent = "";
 }
 
 function drawRoute(panel, p1, p2) {
@@ -101,40 +93,73 @@ function drawRoute(panel, p1, p2) {
   requestAnimationFrame(() => path.classList.add("visible"));
 }
 
+function resetRoute() {
+  if (fromPin) fromPin.classList.remove("is-from");
+  if (toPin) toPin.classList.remove("is-to");
+  if (activeChip) activeChip.classList.remove("chip-active");
+  document.querySelectorAll(".map-route path").forEach((path) => path.remove());
+  fromPin = null;
+  toPin = null;
+  fromLabel = null;
+  toLabel = null;
+  activeChip = null;
+  updateSummary();
+}
+
+function setFrom(label, pin) {
+  if (fromPin) fromPin.classList.remove("is-from");
+  fromPin = pin || null;
+  fromLabel = label;
+  if (fromPin) fromPin.classList.add("is-from");
+  if (fromSelect) fromSelect.value = label;
+  updateSummary();
+}
+
+function setTo(label, pin, chip) {
+  if (toPin) toPin.classList.remove("is-to");
+  if (activeChip) activeChip.classList.remove("chip-active");
+  toPin = pin || null;
+  activeChip = chip || null;
+  toLabel = label;
+  if (toPin) toPin.classList.add("is-to");
+  if (activeChip) activeChip.classList.add("chip-active");
+  if (toSelect) toSelect.value = label;
+  updateSummary();
+
+  if (fromPin && toPin && panelOf(fromPin) === panelOf(toPin)) {
+    drawRoute(panelOf(fromPin), pinPoint(fromPin), pinPoint(toPin));
+  }
+
+  document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+}
+
 document.querySelectorAll(".map-pin").forEach((pin) => {
   pin.addEventListener("click", () => {
     if (pin === fromPin || pin === toPin) {
       resetRoute();
       return;
     }
-
-    if (!fromPin) {
-      fromPin = pin;
-      pin.classList.add("is-from");
-      if (routeSummary) routeSummary.textContent = `${pinLabel(pin)} → …`;
+    if (!fromLabel) {
+      setFrom(pinLabel(pin), pin);
       return;
     }
-
-    if (!toPin) {
-      toPin = pin;
-      pin.classList.add("is-to");
-
-      if (fromSelect) fromSelect.value = pinLabel(fromPin);
-      if (toSelect) toSelect.value = pinLabel(toPin);
-      if (routeSummary) routeSummary.textContent = `${pinLabel(fromPin)} → ${pinLabel(toPin)}`;
-
-      if (panelOf(fromPin) === panelOf(toPin)) {
-        drawRoute(panelOf(fromPin), pinPoint(fromPin), pinPoint(toPin));
-      }
-
-      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+    if (!toLabel) {
+      setTo(pinLabel(pin), pin, null);
       return;
     }
-
     resetRoute();
-    fromPin = pin;
-    pin.classList.add("is-from");
-    if (routeSummary) routeSummary.textContent = `${pinLabel(pin)} → …`;
+    setFrom(pinLabel(pin), pin);
+  });
+});
+
+document.querySelectorAll(".dest-chip").forEach((chip) => {
+  chip.addEventListener("click", () => {
+    if (chip.dataset.selectTo) {
+      setTo(chip.dataset.selectTo, null, chip);
+    } else if (chip.hasAttribute("data-fill-subject") && subjectInput) {
+      subjectInput.value = chip.textContent.trim();
+      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+    }
   });
 });
 

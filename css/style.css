@@ -483,6 +483,12 @@ ul { list-style: none; margin: 0; padding: 0; }
   box-shadow: var(--shadow-hover);
   color: var(--accent);
 }
+.dest-chip.chip-active {
+  background: #0d2338;
+  border-color: #0d2338;
+  color: #fff;
+}
+.dest-chip.chip-active:hover { color: #fff; }
 
 /* Gallery */
 .gallery {
