@@ -592,7 +592,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 }
 .contact-text p { color: var(--muted); line-height: 1.7; margin-bottom: 26px; }
 .contact-info { display: flex; flex-direction: column; gap: 10px; }
-.contact-info a { color: var(--accent); font-weight: 600; }
+.contact-info a { color: var(--accent); font-weight: 700; font-size: 1.2rem; letter-spacing: 0.01em; }
 .contact-info-row { flex-direction: row; align-items: center; justify-content: space-between; }
 .contact-info-text { display: flex; flex-direction: column; gap: 10px; }
 
