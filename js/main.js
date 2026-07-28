@@ -62,6 +62,11 @@ const toSelect = document.querySelector('select[name="to"]');
 const fromSelect = document.querySelector('select[name="from"]');
 const subjectInput = document.querySelector('input[name="subject"]');
 const routeSummary = document.getElementById("route-summary");
+const routeWhatsapp = document.getElementById("route-whatsapp");
+
+const WHATSAPP_NUMBER = "33619450257";
+const currentDict = () => translations[document.documentElement.lang] || translations.en;
+const waLink = (text) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 
 let fromPin = null;
 let toPin = null;
@@ -77,11 +82,27 @@ const pinPoint = (pin) => ({
 });
 
 function updateSummary() {
-  if (!routeSummary) return;
-  if (fromLabel && toLabel) routeSummary.textContent = `${fromLabel} → ${toLabel}`;
-  else if (fromLabel) routeSummary.textContent = `${fromLabel} → …`;
-  else if (toLabel) routeSummary.textContent = `… → ${toLabel}`;
-  else routeSummary.textContent = "";
+  if (routeSummary) {
+    if (fromLabel && toLabel) routeSummary.textContent = `${fromLabel} → ${toLabel}`;
+    else if (fromLabel) routeSummary.textContent = `${fromLabel} → …`;
+    else if (toLabel) routeSummary.textContent = `… → ${toLabel}`;
+    else routeSummary.textContent = "";
+  }
+
+  if (routeWhatsapp) {
+    if (fromLabel && toLabel) {
+      const dict = currentDict();
+      const message = [
+        dict["whatsapp.intro"],
+        `${dict["form.fromPlaceholder"]}: ${fromLabel}`,
+        `${dict["form.toPlaceholder"]}: ${toLabel}`,
+      ].join("\n");
+      routeWhatsapp.href = waLink(message);
+      routeWhatsapp.style.display = "";
+    } else {
+      routeWhatsapp.style.display = "none";
+    }
+  }
 }
 
 function drawRoute(panel, p1, p2) {
@@ -91,6 +112,18 @@ function drawRoute(panel, p1, p2) {
   path.setAttribute("d", `M${p1.x} ${p1.y} L${p2.x} ${p2.y}`);
   svg.appendChild(path);
   requestAnimationFrame(() => path.classList.add("visible"));
+}
+
+let lastAutoSentPair = null;
+
+function maybeAutoOpenWhatsApp() {
+  if (!(fromLabel && toLabel)) return;
+  const pairKey = `${fromLabel}→${toLabel}`;
+  if (pairKey === lastAutoSentPair) return;
+  lastAutoSentPair = pairKey;
+  if (routeWhatsapp && routeWhatsapp.href) {
+    window.open(routeWhatsapp.href, "_blank", "noopener");
+  }
 }
 
 function resetRoute() {
@@ -103,6 +136,7 @@ function resetRoute() {
   fromLabel = null;
   toLabel = null;
   activeChip = null;
+  lastAutoSentPair = null;
   updateSummary();
 }
 
@@ -113,6 +147,7 @@ function setFrom(label, pin) {
   if (fromPin) fromPin.classList.add("is-from");
   if (fromSelect) fromSelect.value = label;
   updateSummary();
+  maybeAutoOpenWhatsApp();
 }
 
 function setTo(label, pin, chip) {
@@ -131,6 +166,7 @@ function setTo(label, pin, chip) {
   }
 
   document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+  maybeAutoOpenWhatsApp();
 }
 
 document.querySelectorAll(".map-pin").forEach((pin) => {
@@ -163,12 +199,31 @@ document.querySelectorAll(".dest-chip").forEach((chip) => {
   });
 });
 
-// Contact form (static placeholder submit — wire to a backend/service later)
+// Contact form: build a WhatsApp message from the fields and open a chat with it pre-filled
 const form = document.getElementById("contact-form");
 const formNote = document.getElementById("form-note");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  const lang = document.documentElement.lang;
-  formNote.textContent = (translations[lang] || translations.en)["form.successNote"];
+  const dict = currentDict();
+  const data = new FormData(form);
+
+  const lines = [dict["whatsapp.intro"]];
+  const name = data.get("name");
+  const phone = data.get("phone");
+  const from = data.get("from");
+  const to = data.get("to");
+  const subject = data.get("subject");
+  const message = data.get("message");
+
+  if (name) lines.push(`${dict["form.name"]}: ${name}`);
+  if (phone) lines.push(`${dict["form.phone"]}: ${phone}`);
+  if (from) lines.push(`${dict["form.fromPlaceholder"]}: ${from}`);
+  if (to) lines.push(`${dict["form.toPlaceholder"]}: ${to}`);
+  if (subject) lines.push(`${dict["form.subject"]}: ${subject}`);
+  if (message) lines.push(`${dict["form.message"]}: ${message}`);
+
+  window.open(waLink(lines.join("\n")), "_blank", "noopener");
+
+  formNote.textContent = dict["form.successNote"];
   form.reset();
 });
